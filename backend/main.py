@@ -53,30 +53,27 @@ app = FastAPI(
     description="AI-powered PDF Question Answering System",
     version="2.0.0"
 )
-
-
 # ============================================================
 # 4. CORS
 # ============================================================
 
+origins = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    os.getenv("FRONTEND_URL", "").rstrip("/")
+]
+
+origins = [origin for origin in origins if origin]
+
 app.add_middleware(
     CORSMiddleware,
-
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5174"
-    ],
-
+    allow_origins=origins,
     allow_credentials=True,
-
     allow_methods=["*"],
-
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
-
-
 # ============================================================
 # 5. DIRECTORIES
 # ============================================================
